@@ -4,6 +4,8 @@ import com.wms.entity.User;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
 
+import java.util.List;
+
 /**
  * (User)表服务接口
  *
@@ -53,4 +55,5 @@ public interface UserService {
      */
     boolean deleteById(Integer id);
 
+    List<User> list();
 }

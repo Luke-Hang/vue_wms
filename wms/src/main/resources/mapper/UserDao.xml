@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace=".dao.UserDao">
+<mapper namespace="com.wms.dao.UserDao">
 
-    <resultMap type=".entity.User" id="UserMap">
+    <resultMap type="com.wms.entity.User" id="UserMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="no" column="no" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
@@ -164,6 +164,12 @@
         from user
         where id = #{id}
     </delete>
+
+    <select id="list" resultMap="UserMap">
+        select id, no, name, password, age, sex, phone, role_id, isValid
+        from user
+        where id = #{id}
+    </select>
 
 </mapper>
 

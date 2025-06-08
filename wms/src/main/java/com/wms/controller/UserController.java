@@ -1,5 +1,6 @@
 package com.wms.controller;
 
+import com.wms.common.Result;
 import com.wms.entity.User;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
@@ -8,12 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * (User)表控制层
- *
- * @author makejava
- * @since 2025-06-08 15:45:27
- */
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -33,6 +30,11 @@ public class UserController {
     @GetMapping("/list")
     public ResponseEntity<Page<User>> queryByPage(User user, PageRequest pageRequest) {
         return ResponseEntity.ok(userService.queryByPage(user, pageRequest));
+    }
+
+    @GetMapping("/list")
+    public List<User> list(User user, PageRequest pageRequest) {
+        return userService.list();
     }
 
     /**
