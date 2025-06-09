@@ -1,6 +1,6 @@
 package com.wms.service.impl;
 
-import com.wms.dao.UserDao;
+import com.wms.dao.UserMapper;
 import com.wms.entity.User;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
@@ -20,7 +20,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Resource
-    private UserDao userDao;
+    private UserMapper userDao;
 
     /**
      * 通过ID查询单条数据

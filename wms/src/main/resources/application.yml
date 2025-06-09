@@ -5,6 +5,14 @@ spring:
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  #  添加swagger时，对于Spring Boot 2.6+版本，可能需要添加以下配置，解决启动时的路径匹配问题：
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+
+logging:
+  level:
+    com.wms: debug
 
 server:
   port: 8080

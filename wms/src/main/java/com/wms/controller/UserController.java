@@ -5,12 +5,15 @@ import com.wms.entity.User;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
 import com.wms.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = "用户管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -20,6 +23,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "查询用户列表")
+    @GetMapping("/list")
+    public List<User> list() {
+        return userService.list();
+    }
+
+
     /**
      * 分页查询
      *
@@ -27,15 +37,10 @@ public class UserController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping("/list")
+/*    @GetMapping("/list")
     public ResponseEntity<Page<User>> queryByPage(User user, PageRequest pageRequest) {
         return ResponseEntity.ok(userService.queryByPage(user, pageRequest));
-    }
-
-    @GetMapping("/list")
-    public List<User> list(User user, PageRequest pageRequest) {
-        return userService.list();
-    }
+    }*/
 
     /**
      * 通过主键查询单条数据

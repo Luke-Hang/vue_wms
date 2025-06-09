@@ -1,8 +1,8 @@
 package com.wms.dao;
 
 import com.wms.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.mapstruct.Mapper;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @since 2025-06-08 15:45:27
  */
 @Mapper
-public interface UserDao {
+public interface UserMapper {
 
     /**
      * 通过ID查询单条数据
