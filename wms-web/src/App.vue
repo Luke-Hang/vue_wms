@@ -1,14 +1,17 @@
 <template>
   <div id="app">
-    <el-button type="primary">按钮</el-button>
+    <!-- <el-button type="primary">按钮</el-button> -->
+    <HomePage></HomePage>
   </div>
 </template>
 
 <script>
+import HomePage from './components/HomePage.vue'
 
 export default {
   name: 'App',
   components: {
+    HomePage
   }
 }
 </script>
