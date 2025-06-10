@@ -44,11 +44,11 @@ public class Result {
     }
 
     //fail
-    public static Result fail() {
-        return new Result(400, "失败", 0L, null);
+    public static Result fail(String msg) {
+        return new Result(400, msg, 0L, null);
     }
 
-    public static Result fail(Object data) {
+    public static Result fail(String msg, Object data) {
         return new Result(400, "失败", 0L, data);
     }
 

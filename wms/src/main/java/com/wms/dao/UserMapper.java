@@ -82,6 +82,8 @@ public interface UserMapper {
      */
     int deleteById(Integer id);
 
-    List<User> list();
+    List<User> getUserList();
+
+    User findUserByNo(@Param("userNo") String userNo);
 }
 

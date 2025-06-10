@@ -1,5 +1,6 @@
 package com.wms.service;
 
+import com.wms.common.Result;
 import com.wms.entity.User;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
@@ -55,5 +56,9 @@ public interface UserService {
      */
     boolean deleteById(Integer id);
 
-    List<User> list();
+    List<User> getUserList();
+
+    Result findUserByNo(String userNo);
+
+    Result save(User user);
 }

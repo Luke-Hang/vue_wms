@@ -1,13 +1,18 @@
 package com.wms.service.impl;
 
+import com.wms.common.Result;
 import com.wms.dao.UserMapper;
 import com.wms.entity.User;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
 import com.wms.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,8 +24,10 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Resource
-    private UserMapper userDao;
+    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 通过ID查询单条数据
@@ -30,20 +37,20 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User queryById(Integer id) {
-        return this.userDao.queryById(id);
+        return this.userMapper.queryById(id);
     }
 
     /**
      * 分页查询
      *
-     * @param user 筛选条件
-     * @param pageRequest      分页对象
+     * @param user        筛选条件
+     * @param pageRequest 分页对象
      * @return 查询结果
      */
     @Override
     public Page<User> queryByPage(User user, PageRequest pageRequest) {
-        long total = this.userDao.count(user);
-        //return new PageImpl<>(userDao.queryAllByLimit(user, pageRequest), pageRequest, total);
+        long total = this.userMapper.count(user);
+        //return new PageImpl<>(userMapper.queryAllByLimit(user, pageRequest), pageRequest, total);
         return null;
 
     }
@@ -56,7 +63,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User insert(User user) {
-        this.userDao.insert(user);
+        this.userMapper.insert(user);
         return user;
     }
 
@@ -68,7 +75,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User update(User user) {
-        this.userDao.update(user);
+        this.userMapper.update(user);
         return this.queryById(user.getId());
     }
 
@@ -80,11 +87,48 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean deleteById(Integer id) {
-        return this.userDao.deleteById(id) > 0;
+        return this.userMapper.deleteById(id) > 0;
     }
 
     @Override
-    public List<User> list() {
-        return userDao.list();
+    public List<User> getUserList() {
+        logger.info("查询用户列表开始!");
+        List<User> userList = null;
+        try {
+            userList = userMapper.getUserList();
+        } catch (Exception e) {
+            logger.error("查询用户列表异常!", e);
+            return Collections.emptyList();
+        }
+        logger.info("查询用户列表结束!");
+        return userList;
     }
+
+    @Override
+    public Result findUserByNo(String userNo) {
+        logger.info("根据账号查询用户开始!");
+        User user;
+        try {
+            user = userMapper.findUserByNo(userNo);
+        } catch (Exception e) {
+            logger.error("根据账号查询用户异常!", e);
+            return Result.fail("根据账号查询用户异常!");
+        }
+        logger.info("根据账号查询用户结束!");
+        return Result.success(user);
+    }
+
+    @Override
+    public Result save(User user) {
+        logger.info("新增用户开始!");
+        try {
+            userMapper.insert(user);
+        } catch (Exception e) {
+            logger.error("新增用户异常!", e);
+            return Result.fail("新增用户异常!");
+        }
+        logger.info("新增用户结束!");
+        return Result.success("新增用户成功!");
+    }
+
 }

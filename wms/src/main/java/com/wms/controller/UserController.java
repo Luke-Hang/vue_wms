@@ -25,8 +25,20 @@ public class UserController {
 
     @ApiOperation(value = "查询用户列表")
     @GetMapping("/list")
-    public List<User> list() {
-        return userService.list();
+    public List<User> getUserList() {
+        return userService.getUserList();
+    }
+
+    @ApiOperation(value = "根据账号查询用户")
+    @GetMapping("/findByNo/{userNo}")
+    public Result findUserByNo(@PathVariable String userNo) {
+        return userService.findUserByNo(userNo);
+    }
+
+    @ApiOperation(value = "新增用户")
+    @PostMapping("/save")
+    public Result save(@RequestBody User user) {
+        return userService.save(user);
     }
 
 

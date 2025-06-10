@@ -165,9 +165,15 @@
         where id = #{id}
     </delete>
 
-    <select id="list" resultMap="UserMap">
+    <select id="getUserList" resultMap="UserMap">
         select id, no, name, password, age, sex, phone, role_id, isValid
         from user
+    </select>
+
+    <select id="findUserByNo" resultMap="UserMap">
+        select id, no, name, password, age, sex, phone, role_id, isValid
+        from user
+        where no = #{userNo}
     </select>
 
 </mapper>
