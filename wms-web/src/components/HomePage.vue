@@ -1,13 +1,13 @@
 <!--  -->
 <template>
 <el-container style="height: 500px; border: 1px solid #eee">
-  <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-    <AsideHome></AsideHome>
+  <el-aside :width="aside_witdh" style="background-color: rgb(238, 241, 246)">
+    <AsideHome :collapseFlag="collapseFlag"></AsideHome>
   </el-aside>
   
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
-        <HeaderHome></HeaderHome>
+        <HeaderHome @doCollapse="doCollapse" :icon="icon"></HeaderHome>
     </el-header>
     
     <el-main>
@@ -24,14 +24,23 @@ import MainHome from './MainHome.vue';
 export default {
   components: { AsideHome, HeaderHome, MainHome },
   data () {
-/*     const item={
-                date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-    };
-    return {
-        tableData: Array(10).fill(item)
-    } */
+    return{
+      collapseFlag:false,
+      icon:'el-icon-s-fold',
+      aside_witdh:'200px',
+    }
+  },
+  methods:{
+    doCollapse(){
+      this.collapseFlag = !this.collapseFlag
+      if (!this.collapseFlag){
+        this.icon='el-icon-s-fold'
+        this.aside_witdh='200px'
+      }else {
+        this.icon='el-icon-s-unfold'
+        this.aside_witdh='64px'
+      }
+    }
   }
 }
 </script>

@@ -4,7 +4,9 @@
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
+        style="height: 100%"
         default-active="/Home"
+        :collapse="collapseFlag"
     >
       <el-menu-item index="/Home">
         <i class="el-icon-s-home"></i>
@@ -25,7 +27,11 @@
 export default {
   data () {
     return {
+      // collapseFlag: false
     }
+  },
+  props:{
+    collapseFlag:Boolean
   }
 }
 </script>
