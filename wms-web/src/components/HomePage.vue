@@ -2,7 +2,7 @@
 <template>
 <el-container style="height: 500px; border: 1px solid #eee">
   <el-aside :width="aside_witdh" style="background-color: rgb(238, 241, 246)">
-    <AsideHome :collapseFlag="collapseFlag"></AsideHome>
+    <AsideHome :isCollapse="collapseFlag"></AsideHome>
   </el-aside>
   
   <el-container>
