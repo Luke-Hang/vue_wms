@@ -41,6 +41,12 @@ public class UserController {
         return userService.save(user);
     }
 
+    @ApiOperation(value = "更新用户")
+    @PostMapping("/update")
+    public Result update(@RequestBody User user){
+        return userService.update(user);
+    }
+
 
     /**
      * 分页查询
@@ -82,10 +88,10 @@ public class UserController {
      * @param user 实体
      * @return 编辑结果
      */
-    @PutMapping
+/*    @PutMapping
     public ResponseEntity<User> edit(User user) {
         return ResponseEntity.ok(this.userService.update(user));
-    }
+    }*/
 
     /**
      * 删除数据

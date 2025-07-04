@@ -74,9 +74,9 @@ public class UserServiceImpl implements UserService {
      * @return 实例对象
      */
     @Override
-    public User update(User user) {
-        this.userMapper.update(user);
-        return this.queryById(user.getId());
+    public Result update(User user) {
+        userMapper.update(user);
+        return Result.success("修改成功");
     }
 
     /**
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
             return Result.fail("新增用户异常!");
         }
         logger.info("新增用户结束!");
-        return Result.success("新增用户成功!");
+        return Result.success("新增用户成功!" + user);
     }
 
 }
