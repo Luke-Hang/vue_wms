@@ -2,6 +2,7 @@ package com.wms.service;
 
 import com.wms.common.Result;
 import com.wms.entity.User;
+import com.wms.entity.UserQueryVo;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
 
@@ -61,4 +62,6 @@ public interface UserService {
     Result findUserByNo(String userNo);
 
     Result save(User user);
+
+    Result query(UserQueryVo userQueryVo);
 }

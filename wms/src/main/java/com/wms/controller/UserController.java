@@ -2,6 +2,7 @@ package com.wms.controller;
 
 import com.wms.common.Result;
 import com.wms.entity.User;
+import com.wms.entity.UserQueryVo;
 import com.wms.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,13 @@ public class UserController {
     @PostMapping("/update")
     public Result update(@RequestBody User user){
         return userService.update(user);
+    }
+
+
+    @ApiOperation(value = "用户登录")
+    @PostMapping("/login")
+    public Result login(@RequestBody UserQueryVo userQueryVo){
+        return userService.query(userQueryVo);
     }
 
 

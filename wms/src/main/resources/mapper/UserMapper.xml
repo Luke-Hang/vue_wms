@@ -176,5 +176,11 @@
         where no = #{userNo}
     </select>
 
+    <select id="query" resultMap="UserMap">
+        select no, password
+        from user
+        where no = #{no} and password = #{password}
+    </select>
+
 </mapper>
 

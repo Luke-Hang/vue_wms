@@ -1,6 +1,8 @@
 package com.wms.dao;
 
+import com.wms.common.Result;
 import com.wms.entity.User;
+import com.wms.entity.UserQueryVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -85,5 +87,7 @@ public interface UserMapper {
     List<User> getUserList();
 
     User findUserByNo(@Param("userNo") String userNo);
+
+    List<User> query(UserQueryVo userQueryVo);
 }
 

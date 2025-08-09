@@ -3,6 +3,7 @@ package com.wms.service.impl;
 import com.wms.common.Result;
 import com.wms.dao.UserMapper;
 import com.wms.entity.User;
+import com.wms.entity.UserQueryVo;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
 import com.wms.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -128,6 +130,21 @@ public class UserServiceImpl implements UserService {
         }
         logger.info("新增用户结束!");
         return Result.success("新增用户成功!" + user);
+    }
+
+    @Override
+    public Result query(UserQueryVo userQueryVo) {
+        List<User> list = userMapper.query(userQueryVo);
+        if (list.size()>0){
+            User user1 = list.get(0);
+            List<String> menuList = userMapper.queryMenuByUserId(user1.getId());
+
+        }
+
+        HashMap res = new HashMap();
+        res.put("user",user1);
+        res.put("menu",menuList);
+        return Result.suc(res);
     }
 
 }
