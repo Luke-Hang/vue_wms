@@ -2,8 +2,6 @@ package com.wms.controller;
 
 import com.wms.common.Result;
 import com.wms.entity.User;
-import com.wms.model.Page;
-import com.wms.model.PageRequest;
 import com.wms.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

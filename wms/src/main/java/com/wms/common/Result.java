@@ -4,52 +4,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author xiehang
- * @date 2025/6/8 16:23
- */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Result {
+@AllArgsConstructor
+public class Result<T> {
 
-    /**
-     * 返回状态码
-     */
-    private int code;
-    /**
-     * 返回信息
-     */
+    private Integer code;
     private String msg;
-    /**
-     * 返回数据总数
-     */
-    private Long total;
-    /**
-     * 返回数据
-     */
-    private Object data;
+    private T data;
 
-    //success
-    public static Result success() {
-        return new Result(200, "成功", 0L, null);
+    public static <T> Result<T> success(T data){
+        return new Result<>(ResultEnum.SUCCESS.getCode(),ResultEnum.SUCCESS.getMsg(),data);
     }
 
-    public static Result success(Object data) {
-        return new Result(200, "成功", 0L, data);
+    public static <T> Result<T> success(String msg, T data){
+        return new Result<>(ResultEnum.SUCCESS.getCode(), msg,data);
     }
 
-    public static Result success(Long total, Object data) {
-        return new Result(200, "成功", total, data);
+    public static <T> Result<T> fail(){
+        return new Result<>(ResultEnum.FAIL.getCode(), Result.fail().getMsg(), null);
     }
 
-    //fail
-    public static Result fail(String msg) {
-        return new Result(400, msg, 0L, null);
+    public static <T> Result<T> fail(String msg){
+        return new Result<>(ResultEnum.FAIL.getCode(), msg, null);
     }
 
-    public static Result fail(String msg, Object data) {
-        return new Result(400, "失败", 0L, data);
+    public static <T> Result<T> fail(String msg, T data){
+        return new Result<>(ResultEnum.FAIL.getCode(), msg, data);
     }
 
 }
