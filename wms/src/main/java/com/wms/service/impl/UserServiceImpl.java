@@ -2,11 +2,14 @@ package com.wms.service.impl;
 
 import com.wms.common.Result;
 import com.wms.dao.UserMapper;
+import com.wms.entity.Menu;
 import com.wms.entity.User;
 import com.wms.entity.UserQueryVo;
 import com.wms.model.Page;
 import com.wms.model.PageRequest;
+import com.wms.service.MenuService;
 import com.wms.service.UserService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private MenuService menuService;
 
     /**
      * 通过ID查询单条数据
@@ -133,18 +139,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result query(UserQueryVo userQueryVo) {
-        List<User> list = userMapper.query(userQueryVo);
-        if (list.size()>0){
-            User user1 = list.get(0);
-            List<String> menuList = userMapper.queryMenuByUserId(user1.getId());
+    public Result login(UserQueryVo userQueryVo) {
+        List<User> userList = userMapper.queryUser(userQueryVo);
+
+        if (CollectionUtils.isNotEmpty(userList) && userList.size() > 0) {
+            User user1 = userList.get(0);
+            List<Menu> menuList = menuService.queryMenuList(user1.getRoleId());
+            HashMap res = new HashMap();
+            res.put("user", user1);
+            res.put("menu", menuList);
+            return Result.success(res);
 
         }
-
-        HashMap res = new HashMap();
-        res.put("user",user1);
-        res.put("menu",menuList);
-        return Result.suc(res);
+        return Result.fail("用户不存在");
     }
-
 }

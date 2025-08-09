@@ -14,6 +14,10 @@
         <result property="isvalid" column="isValid" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <sql id="Base_Column_List">
+        id, no, name, password, age, sex, phone, role_id, isValid
+    </sql>
+
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select id, no, name, password, age, sex, phone, role_id, isValid
@@ -166,7 +170,7 @@
     </delete>
 
     <select id="getUserList" resultMap="UserMap">
-        select id, no, name, password, age, sex, phone, role_id, isValid
+        select <include refid="Base_Column_List"></include>
         from user
     </select>
 
@@ -176,8 +180,8 @@
         where no = #{userNo}
     </select>
 
-    <select id="query" resultMap="UserMap">
-        select no, password
+    <select id="queryUser" resultMap="UserMap">
+        select <include refid="Base_Column_List"></include>
         from user
         where no = #{no} and password = #{password}
     </select>

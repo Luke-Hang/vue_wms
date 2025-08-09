@@ -42,15 +42,15 @@ public class UserController {
 
     @ApiOperation(value = "更新用户")
     @PostMapping("/update")
-    public Result update(@RequestBody User user){
+    public Result update(@RequestBody User user) {
         return userService.update(user);
     }
 
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public Result login(@RequestBody UserQueryVo userQueryVo){
-        return userService.query(userQueryVo);
+    public Result login(@RequestBody UserQueryVo userQueryVo) {
+        return userService.login(userQueryVo);
     }
 
 

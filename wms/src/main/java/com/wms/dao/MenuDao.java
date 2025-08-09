@@ -1,21 +1,19 @@
 package com.wms.dao;
 
-import com.wms.common.Result;
-import com.wms.entity.User;
-import com.wms.entity.UserQueryVo;
+import com.wms.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * (User)表数据库访问层
+ * 菜单表(Menu)表数据库访问层
  *
  * @author makejava
- * @since 2025-06-08 15:45:27
+ * @since 2025-08-09 23:39:35
  */
 @Mapper
-public interface UserMapper {
+public interface MenuDao {
 
     /**
      * 通过ID查询单条数据
@@ -23,58 +21,57 @@ public interface UserMapper {
      * @param id 主键
      * @return 实例对象
      */
-    User queryById(Integer id);
+    Menu queryById(Integer id);
 
     /**
      * 查询指定行数据
      *
-     * @param user 查询条件
+     * @param menu 查询条件
      * @param pageable         分页对象
      * @return 对象列表
      */
-    //List<User> queryAllByLimit(User user, @Param("pageable") Pageable pageable);
-    List<User> queryAllByLimit(User user);
+//    List<Menu> queryAllByLimit(Menu menu, @Param("pageable") Pageable pageable);
 
     /**
      * 统计总行数
      *
-     * @param user 查询条件
+     * @param menu 查询条件
      * @return 总行数
      */
-    long count(User user);
+    long count(Menu menu);
 
     /**
      * 新增数据
      *
-     * @param user 实例对象
+     * @param menu 实例对象
      * @return 影响行数
      */
-    int insert(User user);
+    int insert(Menu menu);
 
     /**
      * 批量新增数据（MyBatis原生foreach方法）
      *
-     * @param entities List<User> 实例对象列表
+     * @param entities List<Menu> 实例对象列表
      * @return 影响行数
      */
-    int insertBatch(@Param("entities") List<User> entities);
+    int insertBatch(@Param("entities") List<Menu> entities);
 
     /**
      * 批量新增或按主键更新数据（MyBatis原生foreach方法）
      *
-     * @param entities List<User> 实例对象列表
+     * @param entities List<Menu> 实例对象列表
      * @return 影响行数
      * @throws org.springframework.jdbc.BadSqlGrammarException 入参是空List的时候会抛SQL语句错误的异常，请自行校验入参
      */
-    int insertOrUpdateBatch(@Param("entities") List<User> entities);
+    int insertOrUpdateBatch(@Param("entities") List<Menu> entities);
 
     /**
      * 修改数据
      *
-     * @param user 实例对象
+     * @param menu 实例对象
      * @return 影响行数
      */
-    int update(User user);
+    int update(Menu menu);
 
     /**
      * 通过主键删除数据
@@ -84,10 +81,6 @@ public interface UserMapper {
      */
     int deleteById(Integer id);
 
-    List<User> getUserList();
-
-    User findUserByNo(@Param("userNo") String userNo);
-
-    List<User> queryUser(UserQueryVo userQueryVo);
+    List<Menu> queryMenuList(Integer roleId);
 }
 

@@ -63,5 +63,5 @@ public interface UserService {
 
     Result save(User user);
 
-    Result query(UserQueryVo userQueryVo);
+    Result login(UserQueryVo userQueryVo);
 }

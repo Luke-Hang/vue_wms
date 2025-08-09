@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.dao.MenuDao">
+
+    <resultMap type="com.wms.entity.Menu" id="MenuMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="menucode" column="menuCode" jdbcType="VARCHAR"/>
+        <result property="menuname" column="menuName" jdbcType="VARCHAR"/>
+        <result property="menulevel" column="menuLevel" jdbcType="VARCHAR"/>
+        <result property="menuparentcode" column="menuParentCode" jdbcType="VARCHAR"/>
+        <result property="menuclick" column="menuClick" jdbcType="VARCHAR"/>
+        <result property="menuright" column="menuRight" jdbcType="VARCHAR"/>
+        <result property="menucomponent" column="menuComponent" jdbcType="VARCHAR"/>
+        <result property="menuicon" column="menuIcon" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id, menuCode, menuName, menuLevel, menuParentCode, menuClick, menuRight, menuComponent, menuIcon
+    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MenuMap">
+        select id,
+               menuCode,
+               menuName,
+               menuLevel,
+               menuParentCode,
+               menuClick,
+               menuRight,
+               menuComponent,
+               menuIcon
+        from menu
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MenuMap">
+        select
+        id, menuCode, menuName, menuLevel, menuParentCode, menuClick, menuRight, menuComponent, menuIcon
+        from menu
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="menucode != null and menucode != ''">
+                and menuCode = #{menucode}
+            </if>
+            <if test="menuname != null and menuname != ''">
+                and menuName = #{menuname}
+            </if>
+            <if test="menulevel != null and menulevel != ''">
+                and menuLevel = #{menulevel}
+            </if>
+            <if test="menuparentcode != null and menuparentcode != ''">
+                and menuParentCode = #{menuparentcode}
+            </if>
+            <if test="menuclick != null and menuclick != ''">
+                and menuClick = #{menuclick}
+            </if>
+            <if test="menuright != null and menuright != ''">
+                and menuRight = #{menuright}
+            </if>
+            <if test="menucomponent != null and menucomponent != ''">
+                and menuComponent = #{menucomponent}
+            </if>
+            <if test="menuicon != null and menuicon != ''">
+                and menuIcon = #{menuicon}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from menu
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="menucode != null and menucode != ''">
+                and menuCode = #{menucode}
+            </if>
+            <if test="menuname != null and menuname != ''">
+                and menuName = #{menuname}
+            </if>
+            <if test="menulevel != null and menulevel != ''">
+                and menuLevel = #{menulevel}
+            </if>
+            <if test="menuparentcode != null and menuparentcode != ''">
+                and menuParentCode = #{menuparentcode}
+            </if>
+            <if test="menuclick != null and menuclick != ''">
+                and menuClick = #{menuclick}
+            </if>
+            <if test="menuright != null and menuright != ''">
+                and menuRight = #{menuright}
+            </if>
+            <if test="menucomponent != null and menucomponent != ''">
+                and menuComponent = #{menucomponent}
+            </if>
+            <if test="menuicon != null and menuicon != ''">
+                and menuIcon = #{menuicon}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into menu(menuCode, menuName, menuLevel, menuParentCode, menuClick, menuRight, menuComponent, menuIcon)
+        values (#{menucode}, #{menuname}, #{menulevel}, #{menuparentcode}, #{menuclick}, #{menuright}, #{menucomponent},
+                #{menuicon})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into menu(menuCode, menuName, menuLevel, menuParentCode, menuClick, menuRight, menuComponent, menuIcon)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.menucode}, #{entity.menuname}, #{entity.menulevel}, #{entity.menuparentcode}, #{entity.menuclick},
+            #{entity.menuright}, #{entity.menucomponent}, #{entity.menuicon})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into menu(menuCode, menuName, menuLevel, menuParentCode, menuClick, menuRight, menuComponent, menuIcon)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.menucode}, #{entity.menuname}, #{entity.menulevel}, #{entity.menuparentcode}, #{entity.menuclick},
+            #{entity.menuright}, #{entity.menucomponent}, #{entity.menuicon})
+        </foreach>
+        on duplicate key update
+        menuCode = values(menuCode),
+        menuName = values(menuName),
+        menuLevel = values(menuLevel),
+        menuParentCode = values(menuParentCode),
+        menuClick = values(menuClick),
+        menuRight = values(menuRight),
+        menuComponent = values(menuComponent),
+        menuIcon = values(menuIcon)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update menu
+        <set>
+            <if test="menucode != null and menucode != ''">
+                menuCode = #{menucode},
+            </if>
+            <if test="menuname != null and menuname != ''">
+                menuName = #{menuname},
+            </if>
+            <if test="menulevel != null and menulevel != ''">
+                menuLevel = #{menulevel},
+            </if>
+            <if test="menuparentcode != null and menuparentcode != ''">
+                menuParentCode = #{menuparentcode},
+            </if>
+            <if test="menuclick != null and menuclick != ''">
+                menuClick = #{menuclick},
+            </if>
+            <if test="menuright != null and menuright != ''">
+                menuRight = #{menuright},
+            </if>
+            <if test="menucomponent != null and menucomponent != ''">
+                menuComponent = #{menucomponent},
+            </if>
+            <if test="menuicon != null and menuicon != ''">
+                menuIcon = #{menuicon},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from menu
+        where id = #{id}
+    </delete>
+
+    <select id="queryMenuList" resultMap="MenuMap">
+        select
+        <include refid="Base_Colum_List"></include>
+        from menu
+        where menuRight LIKE CONCAT('%', #{roleId}, '%')
+    </select>
+
+</mapper>
+
