@@ -1,7 +1,6 @@
 package com.wms.common;
 
-import lombok.Data;
-public enum ResultEnum {
+public enum ResultCode {
     SUCCESS(200, "成功"),
     FAIL(500, "失败"),
     USER_NOT_EXIST(501, "用户不存在"),
@@ -12,10 +11,10 @@ public enum ResultEnum {
     USER_NO_PERMISSION(506, "用户无权限"),
     USER_NO_ROLE(507, "用户无角色");
 
-    private Integer code;
-    private String message;
+    private final Integer code;
+    private final String message;
 
-    ResultEnum(Integer code, String message) {
+    ResultCode(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
