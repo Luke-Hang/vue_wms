@@ -93,8 +93,15 @@ public class UserServiceImpl implements UserService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer id) {
-        return this.userMapper.deleteById(id) > 0;
+    public Result deleteById(Integer id) {
+        try {
+            if (userMapper.deleteById(id)>0) {
+                return Result.success("删除成功");
+            }
+        } catch (Exception e) {
+            return Result.fail("删除失败");
+        }
+        return Result.success("删除成功");
     }
 
     @Override
@@ -144,6 +151,7 @@ public class UserServiceImpl implements UserService {
 
         if (CollectionUtils.isNotEmpty(userList) && userList.size() > 0) {
             User user1 = userList.get(0);
+            //获取用户权限
             List<Menu> menuList = menuService.queryMenuList(user1.getRoleId());
             HashMap res = new HashMap();
             res.put("user", user1);

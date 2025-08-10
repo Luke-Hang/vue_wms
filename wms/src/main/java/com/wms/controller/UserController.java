@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "用户管理")
+@Api(tags = "用户管理接口")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -38,6 +38,12 @@ public class UserController {
     @PostMapping("/save")
     public Result save(@RequestBody User user) {
         return userService.save(user);
+    }
+
+    @ApiOperation(value = "删除用户")
+    @GetMapping("/delete")
+    public Result deleteById(@RequestParam String id){
+        return userService.deleteById(Integer.valueOf(id));
     }
 
     @ApiOperation(value = "更新用户")
@@ -99,16 +105,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.update(user));
     }*/
 
-    /**
-     * 删除数据
-     *
-     * @param id 主键
-     * @return 删除是否成功
-     */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Integer id) {
-        return ResponseEntity.ok(this.userService.deleteById(id));
-    }
+
 
 }
 

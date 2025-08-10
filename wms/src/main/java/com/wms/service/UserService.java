@@ -55,7 +55,7 @@ public interface UserService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer id);
+    Result deleteById(Integer id);
 
     List<User> getUserList();
 
