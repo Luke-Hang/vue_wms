@@ -1,6 +1,8 @@
 package com.wms.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.wms.common.Result;
+import com.wms.entity.QueryPageParam;
 import com.wms.entity.User;
 import com.wms.entity.UserQueryVo;
 import com.wms.service.UserService;
@@ -29,9 +31,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据账号查询用户")
-    @GetMapping("/findByNo/{userNo}")
-    public Result findUserByNo(@PathVariable String userNo) {
-        return userService.findUserByNo(userNo);
+    @GetMapping("/findByNo")
+    public Result findUserByNo(@RequestParam String no) {
+        return userService.findUserByNo(no);
     }
 
     @ApiOperation(value = "新增用户")
@@ -59,6 +61,13 @@ public class UserController {
         return userService.login(userQueryVo);
     }
 
+
+    @ApiOperation(value = "分页查询")
+    @PostMapping("/listPageC1")
+    public Result listPage(@RequestBody QueryPageParam query) {
+        PageInfo<User> result = userService.queryByPage(query);
+        return Result.success(result.getList(), result.getTotal());
+    }
 
     /**
      * 分页查询
@@ -104,8 +113,6 @@ public class UserController {
     public ResponseEntity<User> edit(User user) {
         return ResponseEntity.ok(this.userService.update(user));
     }*/
-
-
 
 }
 

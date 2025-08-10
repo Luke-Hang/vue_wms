@@ -1,10 +1,10 @@
 package com.wms.service;
 
+import com.github.pagehelper.PageInfo;
 import com.wms.common.Result;
+import com.wms.entity.QueryPageParam;
 import com.wms.entity.User;
 import com.wms.entity.UserQueryVo;
-import com.wms.model.Page;
-import com.wms.model.PageRequest;
 
 import java.util.List;
 
@@ -27,11 +27,9 @@ public interface UserService {
     /**
      * 分页查询
      *
-     * @param user 筛选条件
-     * @param pageRequest      分页对象
      * @return 查询结果
      */
-    Page<User> queryByPage(User user, PageRequest pageRequest);
+    PageInfo<User> queryByPage(QueryPageParam query);
 
     /**
      * 新增数据
@@ -64,4 +62,6 @@ public interface UserService {
     Result save(User user);
 
     Result login(UserQueryVo userQueryVo);
+
+    long getUserCount(User user);
 }

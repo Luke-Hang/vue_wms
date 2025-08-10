@@ -1,15 +1,17 @@
 package com.wms.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wms.common.Result;
 import com.wms.dao.UserMapper;
 import com.wms.entity.Menu;
+import com.wms.entity.QueryPageParam;
 import com.wms.entity.User;
 import com.wms.entity.UserQueryVo;
-import com.wms.model.Page;
-import com.wms.model.PageRequest;
 import com.wms.service.MenuService;
 import com.wms.service.UserService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,17 +51,49 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 分页查询
-     *
-     * @param user        筛选条件
-     * @param pageRequest 分页对象
-     * @return 查询结果
+     * @param query
+     * @return
      */
     @Override
-    public Page<User> queryByPage(User user, PageRequest pageRequest) {
-        long total = this.userMapper.count(user);
-        //return new PageImpl<>(userMapper.queryAllByLimit(user, pageRequest), pageRequest, total);
-        return null;
+    public PageInfo<User> queryByPage(QueryPageParam query) {
+        logger.info("分页查询开始!");
+        List<User> list = null;
+        try {
+            HashMap param = query.getParam();
+            String name = (String) param.get("name");
+            String sex = (String) param.get("sex");
+            String roleId = (String) param.get("roleId");
 
+            User user = new User();
+            if (StringUtils.isNotBlank(name)) {
+                user.setName(name);
+            }
+
+            if (StringUtils.isNotBlank(sex)) {
+                user.setSex(Integer.parseInt(sex));
+            }
+
+            if (StringUtils.isNotBlank(roleId)) {
+                user.setRoleId(Integer.parseInt(roleId));
+            }
+
+            // 标准用法
+            //    PageHelper.startPage(pageNum, pageSize);
+            //    List<T> data = mapper.selectXxx();
+            //    PageInfo<T> pageInfo = new PageInfo<>(data);
+
+            // 大数据量优化
+            //PageHelper.startPage(pageNum, pageSize, false); // 不查总数
+
+            ////MyBatis 分页插件 PageHelper 的核心方法调用，其作用是通过拦截 MyBatis 的 SQL 执行流程，自动实现物理分页功能
+            PageHelper.startPage(query.getPageNum(), query.getPageSize());
+            list = userMapper.queryAllByLimit(user);
+        } catch (NumberFormatException e) {
+            logger.error("分页查询异常!", e);
+            return new PageInfo<>(Collections.emptyList());
+        }
+        logger.info("分页查询结束!");
+        return new PageInfo<>(list);
     }
 
     /**
@@ -124,12 +158,15 @@ public class UserServiceImpl implements UserService {
         User user;
         try {
             user = userMapper.findUserByNo(userNo);
+            if (user != null){
+                return Result.success();
+            }
         } catch (Exception e) {
             logger.error("根据账号查询用户异常!", e);
             return Result.fail("根据账号查询用户异常!");
         }
         logger.info("根据账号查询用户结束!");
-        return Result.success(user);
+        return Result.fail("用户不存在");
     }
 
     @Override
@@ -142,7 +179,7 @@ public class UserServiceImpl implements UserService {
             return Result.fail("新增用户异常!");
         }
         logger.info("新增用户结束!");
-        return Result.success("新增用户成功!" + user);
+        return Result.success("新增用户成功!");
     }
 
     @Override
@@ -157,8 +194,13 @@ public class UserServiceImpl implements UserService {
             res.put("user", user1);
             res.put("menu", menuList);
             return Result.success(res);
-
         }
         return Result.fail("用户不存在");
+    }
+
+    @Override
+    public long getUserCount(User user) {
+        long count = userMapper.count(user);
+        return count;
     }
 }

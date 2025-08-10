@@ -13,7 +13,15 @@ spring:
 logging:
   level:
     com.wms: debug
+    org.apache.ibatis: DEBUG
+    java.sql: DEBUG
 
 server:
   port: 8091
+
+pagehelper:
+  helper-dialect: mysql   # 数据库方言
+  reasonable: true        # 分页合理化
+  support-methods-arguments: true
+  params: count=countSql
 
