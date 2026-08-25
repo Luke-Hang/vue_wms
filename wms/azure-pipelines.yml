@@ -24,7 +24,7 @@ variables:
     value: 'wms'
 
   - name: jarNamePattern
-    value: 'mywms-*.jar'
+    value: 'wms-*.jar'
 
 stages:
   - stage: Build
