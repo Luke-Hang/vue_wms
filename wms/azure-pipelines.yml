@@ -1,0 +1,103 @@
+trigger:
+  branches:
+    include:
+      - stage
+      - master
+
+pr:
+  branches:
+    include:
+      - stage
+      - master
+
+variables:
+  - name: azureSubscription
+    value: 'azure-wms-connection'
+
+  - name: resourceGroupName
+    value: 'rg-wms'
+
+  - name: appName
+    value: 'wms-app-580'
+
+  - name: projectDirectory
+    value: 'wms'
+
+  - name: jarNamePattern
+    value: 'mywms-*.jar'
+
+stages:
+  - stage: Build
+    displayName: Build WMS
+    jobs:
+      - job: Build
+        displayName: Maven package
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: Maven@4
+            displayName: Maven clean package
+            inputs:
+              mavenPomFile: '$(projectDirectory)/pom.xml'
+              goals: 'clean package'
+              options: '-DskipTests'
+              mavenAuthenticateFeed: true
+
+          - task: CopyFiles@2
+            displayName: Copy JAR to staging
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)/$(projectDirectory)/target'
+              Contents: '$(jarNamePattern)'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish JAR artifact
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifact: drop
+
+  - stage: DeployStage
+    displayName: Deploy to Stage
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'stage'))
+    jobs:
+      - job: DeployStage
+        displayName: Deploy to Stage App Service
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - download: current
+            artifact: drop
+
+          - task: AzureWebApp@1
+            displayName: Deploy WMS to App Service
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              appType: webAppLinux
+              resourceGroupName: '$(resourceGroupName)'
+              appName: '$(appName)'
+              package: '$(Pipeline.Workspace)/drop/$(jarNamePattern)'
+              startupCommand: 'java -jar /home/site/wwwroot/$(jarNamePattern) --server.port=80'
+
+  - stage: DeployProd
+    displayName: Deploy to Prod
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+    jobs:
+      - job: DeployProd
+        displayName: Deploy to Prod App Service
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - download: current
+            artifact: drop
+
+          - task: AzureWebApp@1
+            displayName: Deploy WMS to App Service
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              appType: webAppLinux
+              resourceGroupName: '$(resourceGroupName)'
+              appName: '$(appName)'
+              package: '$(Pipeline.Workspace)/drop/$(jarNamePattern)'
+              startupCommand: 'java -jar /home/site/wwwroot/$(jarNamePattern) --server.port=80'
