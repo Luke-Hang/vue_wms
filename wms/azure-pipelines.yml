@@ -1,14 +1,14 @@
 trigger:
   branches:
     include:
-      - master
       - stage
+      - master
 
 pr:
   branches:
     include:
-      - master
       - stage
+      - master
 
 variables:
   - name: azureSubscription
@@ -20,8 +20,11 @@ variables:
   - name: appName
     value: 'wms-app-580'
 
+  - name: projectDirectory
+    value: 'wms'
+
   - name: jarNamePattern
-    value: 'wms-*.jar'
+    value: 'mywms-*.jar'
 
 stages:
   - stage: Build
@@ -35,7 +38,7 @@ stages:
           - task: Maven@4
             displayName: Maven clean package
             inputs:
-              mavenPomFile: 'pom.xml'
+              mavenPomFile: '$(projectDirectory)/pom.xml'
               goals: 'clean package'
               options: '-DskipTests'
               mavenAuthenticateFeed: true
@@ -43,7 +46,7 @@ stages:
           - task: CopyFiles@2
             displayName: Copy JAR to staging
             inputs:
-              SourceFolder: '$(Build.SourcesDirectory)/target'
+              SourceFolder: '$(Build.SourcesDirectory)/$(projectDirectory)/target'
               Contents: '$(jarNamePattern)'
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
