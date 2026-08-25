@@ -1,14 +1,19 @@
-trigger:
-  branches:
-    include:
-      - master
-      - stage
+#trigger:
+#  branches:
+#    include:
+#      - master
+#      - stage
+#
+#pr:
+#  branches:
+#    include:
+#      - master
+#      - stage
 
-pr:
-  branches:
-    include:
-      - master
-      - stage
+
+trigger: none
+
+pr: none
 
 variables:
   - name: azureSubscription
