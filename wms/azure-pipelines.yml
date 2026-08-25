@@ -24,7 +24,7 @@ variables:
     value: 'wms'
 
   - name: jarNamePattern
-    value: 'mywms-*.jar'
+    value: 'wms-*.jar'
 
 stages:
   - stage: Build
@@ -77,7 +77,7 @@ stages:
               resourceGroupName: '$(resourceGroupName)'
               appName: '$(appName)'
               package: '$(Pipeline.Workspace)/drop/$(jarNamePattern)'
-              startupCommand: 'java -jar /home/site/wwwroot/$(jarNamePattern) --server.port=80'
+              startupCommand: 'java -jar /home/site/wwwroot/$(jarNamePattern) --spring.profiles.active=stage --server.port=80'
 
   - stage: DeployProd
     displayName: Deploy to Prod
@@ -100,4 +100,4 @@ stages:
               resourceGroupName: '$(resourceGroupName)'
               appName: '$(appName)'
               package: '$(Pipeline.Workspace)/drop/$(jarNamePattern)'
-              startupCommand: 'java -jar /home/site/wwwroot/$(jarNamePattern) --server.port=80'
+              startupCommand: 'java -jar /home/site/wwwroot/$(jarNamePattern) --spring.profiles.active=stage --server.port=80'
