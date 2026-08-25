@@ -1,14 +1,14 @@
 trigger:
   branches:
     include:
-      - stage
       - master
+      - stage
 
 pr:
   branches:
     include:
-      - stage
       - master
+      - stage
 
 variables:
   - name: azureSubscription
