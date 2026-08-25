@@ -1,0 +1,15 @@
+resource_group_name = "rg-wms-dev"
+location            = "eastasia"
+
+app_service_plan_name = "asp-wms-free"
+app_service_plan_sku  = "F1"
+
+web_app_name                = "wms-app-580"
+web_app_java_version        = "8"
+web_app_java_server         = "JAVA"
+web_app_java_server_version = "8"
+
+tags = {
+  project     = "wms"
+  environment = "dev"
+}
